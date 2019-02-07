@@ -20,10 +20,10 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': { view: 'pages/homepage' },
-  'GET /links/list': 'LinksController.list',
-  'GET /links/add': 'LinksController.add',
-  'GET /links/out': 'LinksController.out',
-  'POST /links/create': 'LinksController.create'
+  'GET /links/list': { action: 'links/list' },
+  'GET /links/add': { action: 'links/add' },
+  'GET /links/out': { action: 'links/out' },
+  'POST /links/create': { action: 'links/create' }
 
 
   /***************************************************************************
