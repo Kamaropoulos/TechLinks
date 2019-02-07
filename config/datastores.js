@@ -53,5 +53,12 @@ module.exports.datastores = {
 
   },
 
+  mongodb: {
+    adapter: require('sails-mongo'),
+    host: 'localhost',
+    port: 27017,
+    database: 'techlinks'
+  }
+
 
 };
