@@ -7,37 +7,41 @@
 
 module.exports = {
     list: function (req, res) {
-        Links.find({}).sort({'createdAt': -1}).exec(function(err, links){
-            if (err){
-                res.send(500, {error: "DB Error"});
+        Links.find({}).sort({ 'createdAt': -1 }).exec(function (err, links) {
+            if (err) {
+                res.send(500, { error: "DB Error" });
             }
-            res.view('list', {links:links});
+            res.view('list', { links: links });
         })
     },
-    add: function(req, res){
+    add: function (req, res) {
         res.view('add');
     },
-    create: function(req, res){
+    create: function (req, res) {
         var title = req.body.title;
-        var url = req.body.url;
+        var urlRaw = req.body.url;
 
-        Links.create({title:title, url:url}).exec(function (err) {
-            if (err){
-                res.send(500, {error: 'DB Error'});
+        var url = (urlRaw.indexOf('://') === -1) ? 'http://' + urlRaw : urlRaw;
+
+        console.log(url);
+
+        Links.create({ title: title, url: url }).exec(function (err) {
+            if (err) {
+                res.send(500, { error: 'DB Error' });
             }
 
             res.redirect('/links/list');
         })
     },
-    out: function(req, res){
+    out: function (req, res) {
         var id = req.query.id;
-        Links.findOne({_id: id}).exec(function(err, link){
-            if (err){
-                res.send(500, {error: "DB Error"});
+        Links.findOne({ _id: id }).exec(function (err, link) {
+            if (err) {
+                res.send(500, { error: "DB Error" });
             }
             var newClicks = link.clicks + 1;
             res.redirect(link.url);
-            Links.update({_id: id}).set({clicks: newClicks}).then(function(){
+            Links.update({ _id: id }).set({ clicks: newClicks }).then(function () {
                 // console.log("Done");
             });
         })
