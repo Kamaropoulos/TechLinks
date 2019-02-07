@@ -36,11 +36,9 @@ module.exports = {
                 res.send(500, {error: "DB Error"});
             }
             var newClicks = link.clicks + 1;
-            sails.log('Old: ' + link.clicks);
-            sails.log('New: ' + newClicks);
             res.redirect(link.url);
             Links.update({_id: id}).set({clicks: newClicks}).then(function(){
-                console.log("Done");
+                // console.log("Done");
             });
         })
     }
