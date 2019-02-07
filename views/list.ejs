@@ -1,0 +1,58 @@
+<style>
+    .normal {
+        font-weight: normal;
+    }
+</style>
+
+<%
+function timeSince(date) {
+
+    var seconds = Math.floor((new Date() - date) / 1000);
+  
+    var interval = Math.floor(seconds / 31536000);
+  
+    if (interval > 1) {
+      return interval + " years";
+    }
+    interval = Math.floor(seconds / 2592000);
+    if (interval > 1) {
+      return interval + " months";
+    }
+    interval = Math.floor(seconds / 86400);
+    if (interval > 1) {
+      return interval + " days";
+    }
+    interval = Math.floor(seconds / 3600);
+    if (interval > 1) {
+      return interval + " hours";
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval > 1) {
+      return interval + " minutes";
+    }
+    return Math.floor(seconds) + " seconds";
+  }
+%>
+
+<h4 class="border-bottom border-gray pb-2 mb-0">Recent Links</h6>
+    <% links.forEach(function(link){ %>
+    <div class="media text-muted pt-3">
+        <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
+            <title>Placeholder</title>
+            <rect fill="#007bff" width="100%" height="100%"></rect><text fill="#007bff" dy=".3em" x="50%" y="50%">32x32</text>
+        </svg>
+        <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <% var matches = link.url.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
+               var domain = matches && matches[1];
+            %>
+            <strong class="d-block text-gray-dark"><a href="/links/out?id=<%= link.id %>" target="blank"><%= link.title %></a> <span class="normal">(<%= domain %>)</span></strong>
+            <% var date = new Date(link.createdAt); %>
+            Created <%= timeSince(date) %> ago | Visited <%= link.clicks %> <%= (link.clicks === 1) ? "time" : "times" %>
+        </p>
+    </div>
+    <% }) %>
+
+    <!-- <small class="d-block text-right mt-3">
+        <a href="#">All updates</a>
+    </small> -->
